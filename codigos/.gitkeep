@@ -1,0 +1,258 @@
+// ============================================================
+// CÓDIGO PARA GENERAR HASH MD5 DESDE LA CONSOLA DEL NAVEGADOR
+// Laboratorio 3 - Auditoría de hash en A3-Club.net
+// ============================================================
+//
+// Este código se ejecuta en la consola del navegador (F12 → Console).
+// Carga la librería blueimp-md5 desde un CDN y calcula el hash MD5
+// de la contraseña "password123".
+//
+// Resultado esperado: 482c811da5d5b4bc6d497ffa98491e38
+//
+// NOTA: Chrome bloquea inicialmente el pegado de código en la consola
+// por seguridad. Para habilitarlo, escribe "allow pasting" y presiona Enter.
+// ============================================================
+
+// Paso 1: Crear un elemento script para cargar la librería MD5 desde un CDN
+var script = document.createElement('script');
+
+// Paso 2: Asignar la URL de la librería blueimp-md5
+script.src = 'https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js';
+
+// Paso 3: Añadir el script al head del documento
+document.head.appendChild(script);
+
+// Paso 4: Esperar a que la librería cargue y calcular el hash
+// Se usa setTimeout para dar tiempo a que el script se cargue (1 segundo)
+setTimeout(function() {
+    // Calcular el hash MD5 de la contraseña "password123"
+    var hash = md5('password123');
+    
+    // Imprimir el resultado en la consola
+    console.log('Hash MD5 de password123:', hash);
+    
+    // Resultado esperado: 482c811da5d5b4bc6d497ffa98491e38
+}, 1000);
+
+
+
+
+============================================================
+COMANDOS DE DOCKER UTILIZADOS EN EL LABORATORIO
+Laboratorio 3 - Auditoría de hash en A3-Club.net
+============================================================
+
+1. DESPLIEGUE DE OWASP JUICE SHOP
+------------------------------------------------------------
+Comando para ejecutar Juice Shop en el puerto 3000:
+
+docker run -d -p 3000:3000 bkimminich/juice-shop
+
+Acceso: http://localhost:3000
+
+Nota: Juice Shop se usó inicialmente para probar el flujo de
+registro y login. Sin embargo, se observó que la contraseña
+se enviaba en texto plano, por lo que se descartó como sitio
+de prueba para el análisis de hash.
+
+------------------------------------------------------------
+2. DESPLIEGUE DE DVWA (DAMN VULNERABLE WEB APPLICATION)
+------------------------------------------------------------
+Comando para ejecutar DVWA en el puerto 8080:
+
+docker run --rm -it -p 8080:80 vulnerables/web-dvwa
+
+Acceso: http://localhost:8080
+Usuario: admin
+Contraseña: password
+
+Nota: DVWA se usó para identificar el algoritmo de hash MD5
+a través de una inyección SQL y para verificar que el hash
+de "password123" corresponde a 482c811da5d5b4bc6d497ffa98491e38.
+
+------------------------------------------------------------
+3. COMANDOS ÚTILES DE DOCKER
+------------------------------------------------------------
+Ver contenedores en ejecución:
+docker ps
+
+Detener un contenedor:
+docker stop <container_id>
+
+Eliminar un contenedor:
+docker rm <container_id>
+
+Ver imágenes descargadas:
+docker images
+
+------------------------------------------------------------
+4. NOTAS SOBRE BURPSUITE
+------------------------------------------------------------
+BurpSuite no se ejecutó con Docker, sino como aplicación
+de escritorio. Se configuró el proxy en el puerto 8081
+para evitar conflictos con DVWA (que usaba el 8080).
+
+============================================================
+FIN DEL ARCHIVO
+============================================================
+
+
+
+============================================================
+COMANDOS DE GIT UTILIZADOS EN EL LABORATORIO
+Laboratorio 3 - Auditoría de hash en A3-Club.net
+============================================================
+
+1. INICIALIZAR EL REPOSITORIO LOCAL
+------------------------------------------------------------
+Abrir la terminal en la carpeta del informe y ejecutar:
+
+git init
+
+Esto crea un repositorio Git vacío en la carpeta actual.
+
+------------------------------------------------------------
+2. AÑADIR ARCHIVOS AL REPOSITORIO
+------------------------------------------------------------
+Añadir todos los archivos de la carpeta:
+
+git add .
+
+O añadir archivos específicos:
+
+git add Informe_Laboratorio_3.tex
+git add imagenes/
+git add codigos/
+
+------------------------------------------------------------
+3. HACER COMMIT
+------------------------------------------------------------
+Crear un commit con un mensaje descriptivo:
+
+git commit -m "Subida inicial del informe"
+
+------------------------------------------------------------
+4. RENOMBRAR LA RAMA PRINCIPAL
+------------------------------------------------------------
+Renombrar la rama actual a "main":
+
+git branch -M main
+
+------------------------------------------------------------
+5. CONECTAR CON GITHUB
+------------------------------------------------------------
+Añadir el repositorio remoto de GitHub:
+
+git remote add origin https://github.com/tu-usuario/Laboratorio3-Criptografia.git
+
+Reemplazar "tu-usuario" con tu nombre de usuario de GitHub.
+
+------------------------------------------------------------
+6. SUBIR LOS ARCHIVOS A GITHUB
+------------------------------------------------------------
+Subir los archivos al repositorio remoto:
+
+git push -u origin main
+
+------------------------------------------------------------
+7. COMANDOS ÚTILES DE GIT
+------------------------------------------------------------
+Ver el estado de los archivos:
+git status
+
+Ver los commits realizados:
+git log --oneline
+
+Ver los repositorios remotos configurados:
+git remote -v
+
+Actualizar el repositorio local con cambios remotos:
+git pull origin main
+
+------------------------------------------------------------
+8. NOTA SOBRE EL REPOSITORIO
+------------------------------------------------------------
+El repositorio debe ser PÚBLICO para que los ayudantes
+puedan revisar los archivos. Si es privado, la entrega
+se considerará como no entregada.
+
+============================================================
+FIN DEL ARCHIVO
+============================================================
+
+
+
+============================================================
+ANÁLISIS DE HASH REALIZADO EN EL LABORATORIO
+Laboratorio 3 - Auditoría de hash en A3-Club.net
+============================================================
+
+1. SITIO AUDITADO
+------------------------------------------------------------
+Nombre: A3-Club.net
+URL: https://www.a3-club.net/forum/
+Versión de vBulletin: 3.8.11
+
+------------------------------------------------------------
+2. ALGORITMO DE HASH IDENTIFICADO
+------------------------------------------------------------
+Algoritmo: MD5
+Longitud del hash: 32 caracteres hexadecimales
+
+------------------------------------------------------------
+3. CONTRASEÑA DE PRUEBA
+------------------------------------------------------------
+Contraseña: password123
+Hash MD5: 482c811da5d5b4bc6d497ffa98491e38
+
+------------------------------------------------------------
+4. CAMPOS IDENTIFICADOS EN LAS PETICIONES
+------------------------------------------------------------
+Registro:
+- password_md5
+- passwordconfirm_md5
+
+Login:
+- vb_login_md5password
+- vb_login_md5password_utf
+
+------------------------------------------------------------
+5. VERIFICACIÓN DEL HASH
+------------------------------------------------------------
+Herramienta utilizada: MD5decrypt.net
+URL: https://md5decrypt.net/
+Resultado: 482c811da5d5b4bc6d497ffa98491e38 → password123
+
+------------------------------------------------------------
+6. VULNERABILIDAD IDENTIFICADA
+------------------------------------------------------------
+Tipo: Pass the Hash (PtH)
+Descripción: El servidor acepta el hash MD5 estático sin
+validar su frescura, permitiendo que un atacante que
+intercepte el hash pueda reutilizarlo para autenticarse
+sin conocer la contraseña en texto plano.
+
+Demostración: Se interceptó una petición de login con
+contraseña incorrecta (wrongpassword) y se modificó el
+hash por el correcto (482c811da5d5b4bc6d497ffa98491e38),
+logrando autenticarse exitosamente.
+
+------------------------------------------------------------
+7. HERRAMIENTAS UTILIZADAS
+------------------------------------------------------------
+- Navegador Chrome (Herramientas de Desarrollador - F12)
+- BurpSuite Community Edition
+- Docker (para Juice Shop y DVWA)
+- MD5decrypt.net (verificación de hash)
+
+------------------------------------------------------------
+8. CONCLUSIONES
+------------------------------------------------------------
+1. El sitio es vulnerable a ataques Pass the Hash.
+2. MD5 está criptográficamente roto y no debería usarse.
+3. El hashing en el lado del cliente no proporciona seguridad real.
+4. El sitio carece de políticas de seguridad visibles para contraseñas.
+
+============================================================
+FIN DEL ARCHIVO
+============================================================
